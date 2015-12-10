@@ -72,9 +72,12 @@ if(MSVC)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /openmp")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /openmp")
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp -O3")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O3")
 endif (MSVC)
+  
+
+
 
 
 

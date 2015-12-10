@@ -7,7 +7,7 @@ using namespace helpers;
 template <typename T>
 typename T::Pointer readImage(const char *filename)
 {
-	printf("Reading %s ... \n",filename);
+	//printf("Reading %s ... \n",filename);
 	typedef typename itk::ImageFileReader<T> ReaderType;
 	typename ReaderType::Pointer reader = ReaderType::New();
 
@@ -23,14 +23,14 @@ typename T::Pointer readImage(const char *filename)
 		std::cerr << err << std::endl;
 		//return EXIT_FAILURE;
 	}
-	printf("Done\n");
+	//printf("Done\n");
 	return reader->GetOutput();
 
 }
 template <typename T>
 int writeImage(typename T::Pointer im, const char* filename)
 {
-	printf("Writing %s ... \n",filename);
+	//printf("Writing %s ... \n",filename);
 	typedef typename itk::ImageFileWriter<T> WriterType;
 
 	typename WriterType::Pointer writer = WriterType::New();
@@ -66,7 +66,7 @@ bool file_exists(char *filename)
 int main(int argc, char**argv)
 {
 
-	std::cout<<"number of arguments is: "<<argc<<std::endl;
+	//std::cout<<"number of arguments is: "<<argc<<std::endl;
 	if(argc <5)
 	{
 		std::cout<<"Usage: background_subtraction <InputImageFileName> <OutputImageFileName> <GaussFilterSize>\n";
@@ -81,7 +81,7 @@ int main(int argc, char**argv)
 	
 	std::string input = argv[1];
 	std::string outfname = argv[2];
-	std::cout<<"Input filename:"<<input<<std::endl;
+	//std::cout<<"Input filename:"<<input<<std::endl;
 	
 
 	InputImageType16::Pointer inputImage = readImage<InputImageType16>(input.c_str());
@@ -209,7 +209,7 @@ int main(int argc, char**argv)
 	}
 
 	
-	std::cout<<outfname<<std::endl;
+	//std::cout<<outfname<<std::endl;
 // 	writeImage<InputImageType16>(outputImage, outfname.c_str());
 	writeImage<InputImageType16>(inputImage, outfname.c_str());
 	return 0;

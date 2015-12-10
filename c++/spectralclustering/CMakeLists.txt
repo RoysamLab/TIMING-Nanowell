@@ -14,7 +14,7 @@ set(LAPACK_LIB ${LIB_DIRS}/liblapack.a)
 set(SUPERLU_LIB ${LIB_DIRS}/libsuperlu_4.3.a)
 set(BLAS_LIB ${LIB_DIRS}/libblas.a)
 set(FORTRAN_LIB ${FORTRAN_DIRS}/libgfortran.a)
-set(ALL_LIBS ${ARPACK_LIB} ${LAPACK_LIB} ${SUPERLU_LIB} ${BLAS_LIB} ${FORTRAN_LIB})
+set(ALL_LIBS ${ARPACK_LIB} ${LAPACK_LIB} ${SUPERLU_LIB} ${BLAS_LIB} ${FORTRAN_LIB} ${FFTW3_LIBRARIES})
 
 foreach(_lib ${ALL_LIBS})
     message(${_lib})
@@ -26,7 +26,7 @@ set(ARPACKPP_DIR ${ARPACKPP_ROOT}/include)
 set(AREIG_DIR ${ARPACKPP_ROOT}/examples/areig)
 set(AREIGSYM_DIR ${ARPACKPP_ROOT}/examples/areig/sym)
 set(CSCMAT_DIR ${ARPACKPP_ROOT}/examples/matrices/sym)
-set(INCLUDE_DIRS ${ARPACKPP_DIR} ${AREIGSYM_DIR} ${AREIG_DIR} ${CSCMAT_DIR})
+set(INCLUDE_DIRS ${ARPACKPP_DIR} ${AREIGSYM_DIR} ${AREIG_DIR} ${CSCMAT_DIR} )
 
 
 include_directories(${INCLUDE_DIRS})

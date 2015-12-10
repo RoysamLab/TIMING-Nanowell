@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
             imageCH.push_back( temp+"bg" );
         else
             imageCH.push_back( temp );
-        std::cout << " file: " << imageCH.at(i-7) <<std::endl<<std::flush;
+       // std::cout << " file: " << imageCH.at(i-7) <<std::endl<<std::flush;
     }
     // Read images
     std::vector<ImageCHAR3::Pointer> imageStackCropBin;
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 
     for( long long ii=0; ii<sizeImageStack[2]; ++ii ){
         clock_t t1 = clock();
-        std::cout << std::endl << "At time: " << ii << std::flush;
+       // std::cout << std::endl << "At time: " << ii << std::flush;
 
         ImageF2::Pointer sliceImage = ExtractSlide< ImageUS3, ImageF2 >( imageStack, ii );
         if( ii == 0 ){
@@ -352,7 +352,7 @@ std::vector< std::vector< std::vector< int > > > LabelWells( std::vector< std::v
             allWells.at(row).at(col).at(1) = yy;
             allWells.at(row).at(col).at(2) = type;
             allWells.at(row).at(col).at(3) = value;
-            std::cout << std::endl << "WELL, row: " << row << ", col: " << col << ", x: " << xx << ", yy: " << yy;
+           // std::cout << std::endl << "WELL, row: " << row << ", col: " << col << ", x: " << xx << ", yy: " << yy;
         }
     }
     return allWells;

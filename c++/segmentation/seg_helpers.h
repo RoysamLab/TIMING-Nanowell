@@ -130,7 +130,7 @@ namespace seg_helpers{
     template <typename T>
         typename T::Pointer readImage(const char *filename)
         {
-            printf("Reading %s ... \n",filename);
+           // printf("Reading %s ... \n",filename);
             typedef typename itk::ImageFileReader<T> ReaderType;
             typename ReaderType::Pointer reader = ReaderType::New();
 
@@ -146,13 +146,13 @@ namespace seg_helpers{
                 std::cerr << err << std::endl;
                 //return EXIT_FAILURE;
             }
-            printf("Done\n");
+            //printf("Done\n");
             return reader->GetOutput();
         };
     template <typename T>
         int writeImage(typename T::Pointer im, const char* filename)
         {
-            printf("Writing %s ... \n",filename);
+            //printf("Writing %s ... \n",filename);
             typedef typename itk::ImageFileWriter<T> WriterType;
 
             typename WriterType::Pointer writer = WriterType::New();

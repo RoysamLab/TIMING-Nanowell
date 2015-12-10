@@ -20,7 +20,7 @@ namespace seg_helpers{
         std::vector<unsigned char> labels;
         labels.resize(N);
 
-        std::cout<<"Max Pixel Value: "<< max_pixel_val<< std::endl;
+        //std::cout<<"Max Pixel Value: "<< max_pixel_val<< std::endl;
         // Run iternum Number of iterations of k-means
         for( i = 0; i<iternum; ++i)
         {
@@ -31,7 +31,7 @@ namespace seg_helpers{
             vnl_matrix<float> NewCentroid(K,1);
 
             num_reinitializtion = 0;		// reset the number of reinitializations to zero at each iteration
-            printf("centroid: ");
+            //printf("centroid: ");
 
             // Initialize to random values
             for( j = 0; j<K; ++j)
@@ -84,7 +84,7 @@ namespace seg_helpers{
 
                 if(count.min_value()==0)
                 {
-                    printf("found an empty cluster, reinitializing..\n");
+                    //printf("found an empty cluster, reinitializing..\n");
                     //				printf("centroid:\n");
                     for( j = 0; j<K; ++j)
                     {
@@ -114,7 +114,7 @@ namespace seg_helpers{
 
                 if(change < 0.001)
                 {
-                    printf("converged with change: %f\n",change);
+                    //printf("converged with change: %f\n",change);
                     converged = true;
                 }
                 else
@@ -158,13 +158,13 @@ namespace seg_helpers{
     //***********************************************************************************//
 	void MinimumErrorTresholding( const InputPixelType * Image, BinPixelType * LabelImage, unsigned int N )
 	{
-		std::cout<< "In min error thresholding..."<<std::endl;
+		//std::cout<< "In min error thresholding..."<<std::endl;
 		/*
 		 *	Compute max value to rescale the image data first
 		 */
 
 		 InputPixelType max = GetMax( Image, N );
-		 std::cout<<"max: "<<max<<std::endl;
+		 //std::cout<<"max: "<<max<<std::endl;
 		 
 		 /*
 		  *	Compute probabilites
@@ -190,7 +190,7 @@ namespace seg_helpers{
 		for(unsigned int i = 0; i<=max; ++i)
 		 	mu += prob[i] * (double)i;
 
-		std::cout<<"global mean: "<<mu<<std::endl;
+		//std::cout<<"global mean: "<<mu<<std::endl;
 		
 		double mu_0 = 0.0;
 		double p_0 = 0.0;
@@ -216,7 +216,7 @@ namespace seg_helpers{
 				th = i;
 			}
 		}
-		std::cout<<" minimum error threshold: "<<th<<std::endl;
+		//std::cout<<" minimum error threshold: "<<th<<std::endl;
 		/*
 		 *	Treshold the image data
 		 */
@@ -235,7 +235,7 @@ namespace seg_helpers{
 	void GetMaxLaplacianOfGaussianResponse( InputImageType::Pointer image, BinImageType::Pointer binaryImage, \
 			FloatImageType::Pointer responseImage, unsigned int min_radius, unsigned int max_radius, unsigned int N)
 	{	
-		std::cout<<"starting log computation ...\n";
+		//std::cout<<"starting log computation ...\n";
 		
 		/*
 		 *	Copy the image to a 2d image because of itk log filter
@@ -308,7 +308,7 @@ namespace seg_helpers{
 		for( unsigned int i=0; i<index.size(); ++i)
 			response[index[i]]*= distPtr[index[i]];
 
-		std::cout<<"finished log computation....\n";
+		//std::cout<<"finished log computation....\n";
 
 	}
     //***********************************************************************************//
@@ -489,9 +489,9 @@ namespace seg_helpers{
     {
 
         // iterate through the image
-        printf("nr:%d\n",nr);
-        printf("nc:%d\n",nc);
-        printf("window_size:%d\n",window_size);
+       // printf("nr:%d\n",nr);
+       // printf("nc:%d\n",nc);
+       // printf("window_size:%d\n",window_size);
 
         int x,y,idx,i,j,k,xx,yy,dumy;
         FloatPixelType val,nval;
@@ -502,7 +502,7 @@ namespace seg_helpers{
         int maxY = (int)nc - hws -1;  
         int ws = 2*hws+1;
 
-        printf("ws:%d\n",ws);
+       /// printf("ws:%d\n",ws);
 
         for( y = minY; y < maxY; ++y)
         {    

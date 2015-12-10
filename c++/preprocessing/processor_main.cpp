@@ -5,7 +5,7 @@
 template <typename T>
 typename T::Pointer readImage(const char *filename)
 {
-    printf("Reading %s ... \n",filename);
+    //printf("Reading %s ... \n",filename);
     typedef typename itk::ImageFileReader<T> ReaderType;
     typename ReaderType::Pointer reader = ReaderType::New();
 
@@ -21,14 +21,14 @@ typename T::Pointer readImage(const char *filename)
         std::cerr << err << std::endl;
         //return EXIT_FAILURE;
     }
-    printf("Done\n");
+    //printf("Done\n");
     return reader->GetOutput();
 
 }
 template <typename T>
 int writeImage(typename T::Pointer im, const char* filename)
 {
-    printf("Writing %s ... \n",filename);
+    //printf("Writing %s ... \n",filename);
     typedef typename itk::ImageFileWriter<T> WriterType;
 
     typename WriterType::Pointer writer = WriterType::New();
@@ -50,7 +50,7 @@ int writeImage(typename T::Pointer im, const char* filename)
 int main(int argc, char**argv)
 {
 
-    std::cout<<"number of arguments is: "<<argc<<std::endl;
+    //std::cout<<"number of arguments is: "<<argc<<std::endl;
     if(argc <8)
     {
         std::cout<<"Usage: unmix16 <InputImageFileName1> <InputImageFileName2> "
@@ -70,8 +70,8 @@ int main(int argc, char**argv)
     
     std::string fname01 = argv[1];
     std::string fname02 = argv[2];
-    std::cout<<"Input channel 1:"<<fname01<<std::endl;
-    std::cout<<"Input channel 2:"<<fname02<<std::endl;
+    //std::cout<<"Input channel 1:"<<fname01<<std::endl;
+   // std::cout<<"Input channel 2:"<<fname02<<std::endl;
 
     InputImageType16::Pointer inputImage01 = readImage<InputImageType16>(fname01.c_str());
     InputImageType16::Pointer inputImage02 = readImage<InputImageType16>(fname02.c_str());
@@ -106,10 +106,10 @@ int main(int argc, char**argv)
             float num = -1;
             fscanf(fp,"%f",&num);
             mixingMatrix[i][j] = num;
-            std::cout<<mixingMatrix[i][j]<<"\t";
+            //std::cout<<mixingMatrix[i][j]<<"\t";
             
           }
-          std::cout<<"\n";
+          //std::cout<<"\n";
         }
     }
     fclose(fp);
@@ -126,11 +126,11 @@ int main(int argc, char**argv)
     delete pr;
     
     
-    std::cout<< "I am done ....................."<<std::endl;
-    std::string outfName01 = argv[3];
-    std::string outfName02 = argv[4];
-    std::cout<< "I am writing: "<<outfName01<<std::endl<<std::flush;
-    std::cout<< "I am writing: "<<outfName02<<std::endl<<std::flush;
+    //std::cout<< "I am done ....................."<<std::endl;
+    //std::string outfName01 = argv[3];
+    //std::string outfName02 = argv[4];
+   // std::cout<< "I am writing: "<<outfName01<<std::endl<<std::flush;
+   // std::cout<< "I am writing: "<<outfName02<<std::endl<<std::flush;
     
     writeImage<InputImageType16>(inputImage01,outfName01.c_str());
     writeImage<InputImageType16>(inputImage02,outfName02.c_str());    

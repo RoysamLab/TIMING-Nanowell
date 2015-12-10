@@ -133,23 +133,23 @@ int main(int argc, char **argv)
 		maxVolume = 0;		// set this to zero if you do not want to use it
 	}
 	
-    std::cout<<"Segmentation parameters:\n";
-    std::cout<<"K: "<<K<<std::endl;
-    std::cout<<"minVolume: "<< minVolume<<std::endl;
-    std::cout<<"sigmaGfilter: "<< gfSig<<std::endl;
-    std::cout<<"numLevel: "<< levels<<std::endl;
-    std::cout<<"clusterXY: "<< winSize <<std::endl;
-    std::cout<<"num_time_seeds: "<< num_time_seeds <<std::endl;
-    std::cout<<"save_seed_image: "<< save_seed_image <<std::endl;
-    std::cout<<"maxVolume: "<< maxVolume <<std::endl;
-    std::cout<<"min_rad: "<< min_rad <<std::endl;
-    std::cout<<"max_rad: "<< max_rad <<std::endl;
+    //std::cout<<"Segmentation parameters:\n";
+   // std::cout<<"K: "<<K<<std::endl;
+    //std::cout<<"minVolume: "<< minVolume<<std::endl;
+    //std::cout<<"sigmaGfilter: "<< gfSig<<std::endl;
+   // std::cout<<"numLevel: "<< levels<<std::endl;
+   // std::cout<<"clusterXY: "<< winSize <<std::endl;
+   // std::cout<<"num_time_seeds: "<< num_time_seeds <<std::endl;
+   // std::cout<<"save_seed_image: "<< save_seed_image <<std::endl;
+   // std::cout<<"maxVolume: "<< maxVolume <<std::endl;
+  //  std::cout<<"min_rad: "<< min_rad <<std::endl;
+ //   std::cout<<"max_rad: "<< max_rad <<std::endl;
     
     unsigned found = ifName.find_last_of(".");
     // 	std::cout << " fullName: " << ifName.substr(0,found) << '\n';
     // 	std::cout << " extension: " << ifName.substr(found+1) << '\n';
     std::string seedfName = ifName.substr(0,found) + ".txt";
-    std::cout << "Seed FileName: " << seedfName << '\n';
+   // std::cout << "Seed FileName: " << seedfName << '\n';
     FILE * fp = fopen(seedfName.c_str(),"w");
 
     /*******Read Input Image & Allocate Memory for Output Image************/
@@ -247,7 +247,7 @@ int main(int argc, char **argv)
         // Test for spurios cases, proportion of background
         float background_proportion = (float) count_temp(0) / (float)sz;
         bool isBad = false;
-        printf("background_proportion: %f\n",background_proportion);
+      //  printf("background_proportion: %f\n",background_proportion);
         if(background_proportion<0.9 ||background_proportion == 1.0 )
             isBad = true;
 
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
 
         if(!isBad)
         {
-            std::cout << "Is not Bad, time: " << it_time <<std::endl << std::flush;
+           // std::cout << "Is not Bad, time: " << it_time <<std::endl << std::flush;
             /********** copy to binary image & remove the small components	*****************************************/
             for(unsigned long long  i=0 ; i<sz ; ++i)
             {
@@ -273,7 +273,7 @@ int main(int argc, char **argv)
             	RemoveLargeComponents(oImage, maxVolume);	
 			
             // 		writeImage<LabelImageType>(oImage, "/data/amine/Data/test/debg1.tif");
-            std::cout<<"Finished Removing Small Components for Frame: "<<it_time<<std::endl << std::flush;
+          //  std::cout<<"Finished Removing Small Components for Frame: "<<it_time<<std::endl << std::flush;
 
             /**************** detect the seeds *****************************************************************/
             // only detect seeds for few first time points
@@ -286,10 +286,10 @@ int main(int argc, char **argv)
                 FloatImageType::Pointer responseImage = GetITKImageOfSize<FloatImageType>(sz2);		
                 FloatPixelType * responseImagePtr = responseImage->GetBufferPointer();
 
-                std::cout<<"Computing Distance Map for Frame: "<<it_time<<std::endl << std::flush;
+            //    std::cout<<"Computing Distance Map for Frame: "<<it_time<<std::endl << std::flush;
                 //GetDistanceResponsev3(iImage, oImage, responseImage, levels); // run this at multiple thresholds
 				GetMaxLaplacianOfGaussianResponse( iImage, oImage, responseImage, min_rad, max_rad, sz); 
-                std::cout<<"Clustering: "<<it_time<<std::endl << std::flush;
+              //  std::cout<<"Clustering: "<<it_time<<std::endl << std::flush;
                 GetSeedImagev3(responseImagePtr, seedImagePtr,(unsigned int)ncc,(unsigned int)nrr,winSize);
                 
                 // DEBUG, to save seeds and response
@@ -304,7 +304,7 @@ int main(int argc, char **argv)
 //                     writeImage< BinImageType >( seedImage, name4.c_str() );
 
                 // write the seed image file //
-                std::cout<<"Finished Detecting Seeds for Frame: "<<it_time<<std::endl << std::flush;
+              //  std::cout<<"Finished Detecting Seeds for Frame: "<<it_time<<std::endl << std::flush;
 #pragma omp critical 
                 {
                     for(unsigned long long  i=0 ; i<sz ; ++i)
@@ -338,7 +338,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            std::cout << "Is Bad, time: " << it_time << "\n";
+            //std::cout << "Is Bad, time: " << it_time << "\n";
             for(unsigned long long  i=0 ; i<sz ; ++i)
                 outputImagePtr[i+offset] = 0;		// set label image to zeros if too much background has been segmented
         }// end of is bad segmentation if statement

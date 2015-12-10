@@ -54,7 +54,9 @@ set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_DIR} )
 
 # find_package( OpenCV REQUIRED )
 # include_directories( ${OpenCV_INCLUDE_DIRS} )
-
+include(FindFFTW3.cmake)
+include_directories(${FFTW3_INCLUDE_DIR})
+link_directories(${FFTW3_LINK_DIRECTORIES})
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE( ${ITK_USE_FILE} )
 

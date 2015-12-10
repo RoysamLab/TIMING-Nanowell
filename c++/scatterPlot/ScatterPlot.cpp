@@ -13,7 +13,7 @@ template <typename T>
 typename T::Pointer readImage(const char* filename)
 {
 // 	printf("Reading %s ... \n",filename);
-	std::cout << std::endl << "Reading ... " << filename;
+	//std::cout << std::endl << "Reading ... " << filename;
 	typedef typename itk::ImageFileReader<T> ReaderType;
 
 	typename ReaderType::Pointer reader = ReaderType::New();
@@ -28,7 +28,7 @@ typename T::Pointer readImage(const char* filename)
 		std::cerr << err << std::endl;
 	}
 	itk::Size<3> inputImageSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
-	std::cout<<" done: Image size: "<<inputImageSize[0]<<"x"<<inputImageSize[1]<<"x"<<inputImageSize[2] <<std::flush;
+	//std::cout<<" done: Image size: "<<inputImageSize[0]<<"x"<<inputImageSize[1]<<"x"<<inputImageSize[2] <<std::flush;
 	return reader->GetOutput();
 }
 
@@ -36,7 +36,7 @@ template <typename T>
 int writeImage(typename T::Pointer im, const char* filename)
 {
 // 	printf("Writing %s ... \n",filename);
-	std::cout << std::endl << "Writing ... " << filename;
+	//std::cout << std::endl << "Writing ... " << filename;
 	typedef typename itk::ImageFileWriter<T> WriterType;
 
 	typename WriterType::Pointer writer = WriterType::New();
@@ -53,7 +53,7 @@ int writeImage(typename T::Pointer im, const char* filename)
 		return EXIT_FAILURE;
 	}
 	itk::Size<3> inputImageSize = im->GetLargestPossibleRegion().GetSize();
-	std::cout<<" done: Image size: "<<inputImageSize[0]<<"x"<<inputImageSize[1]<<"x"<<inputImageSize[2] <<std::flush;
+	//std::cout<<" done: Image size: "<<inputImageSize[0]<<"x"<<inputImageSize[1]<<"x"<<inputImageSize[2] <<std::flush;
 	return EXIT_SUCCESS;
 }
 
@@ -93,7 +93,7 @@ int main( int argc, char* argv [] ) {
     std::cerr << "Need to specify two input parameters. <Input image name ch1 (x-axis)>, <Input image name ch2 (y-axis)>, <output image name (scatter plot)>, <OmpNumThreads>." << std::endl;
     exit(1);
   }
-  std::cout << std::endl << "Input filenames";
+  //std::cout << std::endl << "Input filenames";
   for( int i=0;i<argc;++i )
     std::cout << i << " " << argv[i] << std::endl;
   

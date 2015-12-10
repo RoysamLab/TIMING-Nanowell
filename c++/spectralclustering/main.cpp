@@ -134,7 +134,7 @@ int main()
 	// let's compute the degree and the laplacian
 	double* degree_matrix = new double[n]; // just store the diagonal
 	computeDegree<double>(matrix,degree_matrix,n);
-	std::cout<<"degree matrix: \n";
+	//std::cout<<"degree matrix: \n";
 	printArray<double>(degree_matrix,n);
 	
 // 	double* laplacian_matrix = new double[N];
@@ -143,14 +143,14 @@ int main()
 // 	printMatrix<double>(laplacian_matrix,n);
 	
 	computeLaplacianInPlace<double>(matrix,degree_matrix,n);
-	std::cout<<"laplacian matrix in place: \n";
+	//std::cout<<"laplacian matrix in place: \n";
 	printMatrix<double>(matrix,n);
 		
 	int nnz = 0; // number of non-zero elements
 	for(int i=0; i<N; ++i) 
 		if(matrix[i]!=0)
 			++nnz;
-	std::cout<<"number of non-zeros: "<<nnz<<std::endl;
+	//std::cout<<"number of non-zeros: "<<nnz<<std::endl;
     
    
 	
@@ -171,7 +171,7 @@ int main()
 	int* irowB = new int[nnzB];
 	int* pcolB = new int[nnzB];
 	degreeToCCSFormat(degree_matrix, n, irowB, pcolB, B);
-	std::cout<<"degree matrix: \n";
+	//std::cout<<"degree matrix: \n";
 	printArray<double>(B,nnzB);
 	printArray<int>(irowB,nnzB);
 	printArray<int>(pcolB,nnzB);

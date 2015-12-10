@@ -266,11 +266,19 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%% solve the integer program %%%%%%%%%%%%%%%%%%%%%%%%%%
  b = ones(num_out_edges_constraints+num_in_edges_constraints,1);
- options = optimset('Display','off');
- warning('off','optim:bintprog:NotSupported')
- [x,~,exitflag] = bintprog(-costFunction,constraintMatrix,b,[],[],[],options);
+%options = optimset('Display','off');
+options = optimoptions('intlinprog','Display','off');
+numVars = size(costFunction,1);
+intcon = 1:numVars;
+lb= zeros(numVars,1);
+ub= ones(numVars,1);
+options = optimoptions('intlinprog','Display','off');
+[x,fval,exitflag] = intlinprog(-costFunction,intcon,constraintMatrix,b,[],[],lb,ub,options);
+%warning('off','optim:bintprog:NotSupported')
+%x = intlinprog(-costFunction,constraintMatrix,b,[],[],[],options);
+%[x,~,exitflag] = bintprog(-costFunction,constraintMatrix,b,[],[],[],options);
 %  fprintf('integer program exited with: %d\n',exitflag);
- %  x = bintprog(costFunction,constraintMatrix,b);
+%  x = bintprog(costFunction,constraintMatrix,b);
 
  % label selected edges %
  for tt = 1:nFrame - 1    

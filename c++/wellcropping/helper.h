@@ -99,7 +99,7 @@ typename T::Pointer readImage(const char *filename)
 template <typename T>
     int writeImage(typename T::Pointer im, const char* filename)
     {
-        printf("Writing %s ... \n",filename);
+        //printf("Writing %s ... \n",filename);
         typedef typename itk::ImageFileWriter<T> WriterType;
 
         typename WriterType::Pointer writer = WriterType::New();

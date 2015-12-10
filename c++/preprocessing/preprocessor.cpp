@@ -66,14 +66,14 @@ void Preporcessor::runLinearUnmixing()
     mixing_matrix[0][1] = -a12/(detM+EPSILON);
     mixing_matrix[1][1] =  a11/(detM+EPSILON);
     
-    std::cout<<"Normalized Matrix:\n";
-    std::cout<<  a11 << "\t"<< a12 <<"\n";
-    std::cout<<  a21 << "\t"<< a22 <<"\n";  
-    std::cout<< std::endl;
-    std::cout<<"Inverted Matrix:\n";
-    std::cout<<  mixing_matrix[0][0] << "\t"<< mixing_matrix[0][1]<<"\n";
-    std::cout<<  mixing_matrix[1][0] << "\t"<< mixing_matrix[1][1]<<"\n";  
-    std::cout<< std::endl;
+    //std::cout<<"Normalized Matrix:\n";
+    //std::cout<<  a11 << "\t"<< a12 <<"\n";
+    //std::cout<<  a21 << "\t"<< a22 <<"\n";  
+    //std::cout<< std::endl;
+    //std::cout<<"Inverted Matrix:\n";
+    //std::cout<<  mixing_matrix[0][0] << "\t"<< mixing_matrix[0][1]<<"\n";
+    //std::cout<<  mixing_matrix[1][0] << "\t"<< mixing_matrix[1][1]<<"\n";  
+    //std::cout<< std::endl;
         
     
     // declare loop variables
@@ -120,7 +120,7 @@ void Preporcessor::runLinearUnmixing()
 void Preporcessor::runBackgroundSubtraction(T * image)
 {
     
-    std::cout<< "subtracting background ..." << std::endl;
+    //std::cout<< "subtracting background ..." << std::endl;
     #pragma omp  parallel for schedule(dynamic, 1)
     for(size_t t = 0; t<nt; ++t)
     {
@@ -184,7 +184,7 @@ void Preporcessor::runBackgroundSubtraction(T * image)
                 image[index+offset] = 0;
         }  
     }
-    std::cout<< "finished subtracting background ..." << std::endl;
+    //std::cout<< "finished subtracting background ..." << std::endl;
 }
 
 

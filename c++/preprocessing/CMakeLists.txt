@@ -8,17 +8,17 @@ endif(COMMAND cmake_policy)
 
 # adding a library
 ADD_LIBRARY(helper helpers.cpp helpers.h)
-TARGET_LINK_LIBRARIES(helper ${ITK_USE_LIBRARIES} )
+TARGET_LINK_LIBRARIES(helper ${ITK_USE_LIBRARIES} ${FFTW3_LIBRARIES})
 
 # image stacking: 
 ADD_EXECUTABLE(image_to_stack image_to_stack.cpp )
-TARGET_LINK_LIBRARIES(image_to_stack helper ${ITK_LIBRARIES} )
+TARGET_LINK_LIBRARIES(image_to_stack helper ${ITK_LIBRARIES} ${FFTW3_LIBRARIES})
 
 # linear unmixing:
 ADD_EXECUTABLE(unmix16 unmix16.cpp )
-TARGET_LINK_LIBRARIES(unmix16 helper ${ITK_LIBRARIES} )
+TARGET_LINK_LIBRARIES(unmix16 helper ${ITK_LIBRARIES} ${FFTW3_LIBRARIES})
 
 # background subtraction:
 ADD_EXECUTABLE(background_subtraction background_subtraction.cpp )
-TARGET_LINK_LIBRARIES(background_subtraction helper ${ITK_LIBRARIES} )
+TARGET_LINK_LIBRARIES(background_subtraction helper ${ITK_LIBRARIES} ${FFTW3_LIBRARIES})
 

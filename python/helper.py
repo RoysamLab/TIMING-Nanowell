@@ -121,15 +121,15 @@ def SaveFiles( data_path, save_root_path, data_id, range_blocks, out_path, stack
                 channel_list = [filename for filename in file_list
                                 if channel_dict[ch] in filename and tempbb in filename and ".tif" in filename and channel_dict[ch] ] # and channel_dict[ch], added for the cases of empy dictiory
                 if channel_list:
-                    print channel_list
+                    #print channel_list
                     new_blocks.append(b)
-                    print "In Block (1.stack): "+str(b)+", ch: "+ch
+                    #print "In Block (1.stack): "+str(b)+", ch: "+ch
                     time_list = []
                     for filename in channel_list:
                         temp = filename.split("c") 
                         temp = temp[0]
                         temp = temp[-num_of_time_decimals:]             # get the 3 characters before _w
-                        print temp
+                        #print temp
                         if re.search(r'\d+', temp):
                           time_list.append(int(re.search(r'\d+', temp).group()))
                           #print int(re.search(r'\d+', temp).group())
@@ -192,7 +192,7 @@ def RunParallel(subprocess_command_list, numThreads):
     if int(lista[3]) < 150000000:
       memoryAvilable = 0
       memoryAvilable = 1
-    print lista[3]+str(memoryAvilable)  
+    #print lista[3]+str(memoryAvilable)  
 
     while (threads_launched >= numThreads ) | (memoryAvilable == 0): # at least one thread, but no more than 3/4 of the machine
     #while (threads_launched >= max(1,multiprocessing.cpu_count())-5 ) | (memoryAvilable == 0): # at least one thread, but no more than 3/4 of the machine

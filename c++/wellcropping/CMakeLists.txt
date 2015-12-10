@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.8)
 # include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 add_executable( wellDetection wellDetection.cpp )
-target_link_libraries( wellDetection ${OpenCV_LIBS} ${ITK_LIBRARIES})
+target_link_libraries( wellDetection ${OpenCV_LIBS} ${ITK_LIBRARIES} ${FFTW3_LIBRARIES})
 
 # add_executable( wellDetectionv2 test.cpp )
 # target_link_libraries( wellDetectionv2 ${OpenCV_LIBS} ${ITK_LIBRARIES})

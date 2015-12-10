@@ -13,11 +13,11 @@ SET(MIXTURE_SEGMENTATION_HDRS
     seg_helpers.h
 )
 
-ADD_LIBRARY(MixtureSegmentation ${MIXTURE_SEGMENTATION_SRCS} ${MIXTURE_SEGMENTATION_HDRS})
+ADD_LIBRARY(MixtureSegmentation ${MIXTURE_SEGMENTATION_SRCS} ${MIXTURE_SEGMENTATION_HDRS} ${FFTW3_LIBRARIES})
 
 # kmeans clustering segmenation 
 ADD_EXECUTABLE(mixture_segment main.cpp )
-TARGET_LINK_LIBRARIES(mixture_segment MixtureSegmentation  ${ITK_LIBRARIES} )
+TARGET_LINK_LIBRARIES(mixture_segment MixtureSegmentation  ${ITK_LIBRARIES} ${FFTW3_LIBRARIES})
 
 # removing small components
 #ADD_EXECUTABLE(clean_mixture_segmentation remove_small_components.cpp )

@@ -10,7 +10,7 @@ using namespace helpers;
 template <typename T>
 int writeImage(typename T::Pointer im, const char* filename)
 {
-	printf("Writing %s ... \n",filename);
+	//printf("Writing %s ... \n",filename);
 	typedef typename itk::ImageFileWriter<T> WriterType;
 
 	typename WriterType::Pointer writer = WriterType::New();
@@ -48,9 +48,9 @@ typename T::Pointer readImage(const char *filename)
 {
 	//printf("Reading %s ... \n",filename);
 	typedef typename itk::ImageFileReader<T> ReaderType;
-	typename ReaderType::Pointer reader = ReaderType::New();
-
 	ReaderType::GlobalWarningDisplayOff();
+	typename ReaderType::Pointer reader = ReaderType::New();
+	reader->GlobalWarningDisplayOff();
 	reader->SetFileName(filename);
 	try
 	{
@@ -71,9 +71,10 @@ typename T::Pointer readImage(const char *filename)
 
 int main(int argc, char **argv)
 {
-  	std::cout<<"number of arguments is: "<<argc<<std::endl;
+  	//std::cout<<"number of arguments is: "<<argc<<std::endl;
 	if(argc <5)
 	{
+		std::cout<<"Not enough input arguments\n";
 		std::cout<<"Usage: image_to_stack  <InputImageFileNames> <OutputDirectory> <OutputFileName> <OmpNumThreads>\n";
 		return 0;
 	}
@@ -114,7 +115,7 @@ int main(int argc, char **argv)
 	std::vector< InputImageType16::Pointer > inputImages;
 
 	int num_time_points = infnames.size();
-	std::cout<< " number of time points :"<<infnames.size()<<std::endl;
+	//std::cout<< " number of time points :"<<infnames.size()<<std::endl;
 
 	inputImages.resize( num_time_points );
 // #pragma omp  parallel for schedule(dynamic, 1)

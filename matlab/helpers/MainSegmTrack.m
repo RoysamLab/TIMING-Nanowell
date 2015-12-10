@@ -35,15 +35,14 @@ end
 for ch = 1:length(process_channels_seg_trc)
 %         tt2 = clock;
 
-    % Read seed information 
-      try
-           seed_fname = [dataPath,block_name,'/bg_',block_name,process_channels_seg_trc{ch},'.txt'];  % Stored like col (x-axis), row (y-axis)
-           seed_data = dlmread(seed_fname);
-      catch ME
-         fprintf('There is no bg.txt seed for Block: %d, Channel: %d\n',dd-2, ch);
-         continue;
-      end
-
+    % Read seed information
+    try
+        seed_fname = [dataPath,block_name,'/bg_',block_name,process_channels_seg_trc{ch},'.txt'];  % Stored like col (x-axis), row (y-axis)
+        seed_data = dlmread(seed_fname);
+	catch ME
+        fprintf('There is no bg.txt seed for Block: %d, Channel: %d\n',dd-2, ch);
+        continue;
+    end
     
     for ww = 1:numWells
         well_location = well_location_local{ww,1};

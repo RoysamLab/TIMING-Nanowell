@@ -217,7 +217,7 @@ unsigned char getMedianValue(NeighborhoodIteratorType it,int size)
 
 void unmix_median(InputImageType::Pointer im[4],InputImageType::Pointer om[4],InputImageType::Pointer assignment[4])
 {
-	printf("Performing unmixing ...\n");
+	//printf("Performing unmixing ...\n");
 	InputImageType::SizeType size = im[0]->GetLargestPossibleRegion().GetSize();
 
 	MedianFilterType::Pointer filt[4];
@@ -239,7 +239,7 @@ void unmix_median(InputImageType::Pointer im[4],InputImageType::Pointer om[4],In
 
 	for(int counter=0; counter<4; counter++)
 	{
-		printf("\tPerforming median filtering on channel %d ...",counter+1);
+		//printf("\tPerforming median filtering on channel %d ...",counter+1);
 		filt[counter]=MedianFilterType::New();
 		filt[counter]->SetRadius(radius);
 		filt[counter]->SetInput(im[counter]);
@@ -252,12 +252,12 @@ void unmix_median(InputImageType::Pointer im[4],InputImageType::Pointer om[4],In
 		assigniter[counter].GoToBegin();
 		iterator[counter]=IteratorType(om[counter],om[counter]->GetLargestPossibleRegion());
 		iterator[counter].GoToBegin();
-		printf(" Done %d.\n",counter+1);
+		//printf(" Done %d.\n",counter+1);
 	}
 
 	//int total_voxels = size[0]*size[1]*size[2];
 	int num_processed = 0;
-	printf("\tComputing maximum among channels ... ");
+	//printf("\tComputing maximum among channels ... ");
 	for(;!iterator[0].IsAtEnd();)
 	{
 		num_processed++;
@@ -296,13 +296,13 @@ void unmix_median(InputImageType::Pointer im[4],InputImageType::Pointer om[4],In
 			++assigniter[co];
 		}
 	}
-	printf(" Done.\n");
+	//printf(" Done.\n");
 }
 
 void unmix_neighborhood(InputImageType::Pointer im[4],InputImageType::Pointer om[4])
 {
 
-	printf("Beginning iterators\n");
+	//printf("Beginning iterators\n");
 	IteratorType iterator[]={IteratorType(om[0],om[0]->GetLargestPossibleRegion()),
 		IteratorType(om[1],om[1]->GetLargestPossibleRegion()),
 		IteratorType(om[2],om[2]->GetLargestPossibleRegion()),
@@ -316,7 +316,7 @@ void unmix_neighborhood(InputImageType::Pointer im[4],InputImageType::Pointer om
 
 
 
-	printf("Beginning Neighborhood iterators\n");
+	//printf("Beginning Neighborhood iterators\n");
 	NeighborhoodIteratorType::RadiusType radius;
 	radius.Fill(1);
 	NeighborhoodIteratorType nit[]={NeighborhoodIteratorType(radius,im[0],im[0]->GetLargestPossibleRegion()),
@@ -337,7 +337,7 @@ void unmix_neighborhood(InputImageType::Pointer im[4],InputImageType::Pointer om
 	{
 		num_processed++;
 		if(num_processed % 100 ==0)
-			printf("Processed %0.2lf%% voxels\r",100.0/total_voxels*num_processed);
+			//printf("Processed %0.2lf%% voxels\r",100.0/total_voxels*num_processed);
 		//		if(100.0/total_voxels*num_processed> 100)
 		//			break;
 		double max = -1;
@@ -366,7 +366,7 @@ void unmix_neighborhood(InputImageType::Pointer im[4],InputImageType::Pointer om
 }
 OutputImageType::Pointer getThresholded(InputImageType::Pointer im,int n)
 {
-	printf("Performing binary thresholding ...");
+	//printf("Performing binary thresholding ...");
 	ThresholdFilterType::Pointer tfilt = ThresholdFilterType::New();
 	tfilt->SetInput(im);
 	tfilt->SetInsideValue(255);
@@ -374,33 +374,33 @@ OutputImageType::Pointer getThresholded(InputImageType::Pointer im,int n)
 	tfilt->SetLowerThreshold(n);
 	tfilt->SetUpperThreshold(255);
 	tfilt->Update();
-	printf(" Done.\n");
+	//printf(" Done.\n");
 	return tfilt->GetOutput();
 }
 
 OutputImageType::Pointer getOtsuThresholded(InputImageType::Pointer im)
 {
-	printf("Performing binary thresholding ...");
+	//printf("Performing binary thresholding ...");
 	OtsuThresholdFilterType::Pointer tfilt = OtsuThresholdFilterType::New();
 	tfilt->SetInput(im);
 	tfilt->SetInsideValue(0);
 	tfilt->SetOutsideValue(255);
 	tfilt->SetNumberOfHistogramBins(256);
 	tfilt->Update();
-	printf(" Done.\n");
+	//printf(" Done.\n");
 	return tfilt->GetOutput();
 }
 
 OutputImageType::Pointer getBinaryMedianFiltered(InputImageType::Pointer im, InputImageType::SizeType radius)
 {
-	printf("Performing binary median filtering  ...");
+	//printf("Performing binary median filtering  ...");
 	BinaryMedianFilterType::Pointer tfilt = BinaryMedianFilterType::New();
 	tfilt->SetInput(im);
 	tfilt->SetForegroundValue(255);
 	tfilt->SetBackgroundValue(0);
 	tfilt->SetRadius(radius);
 	tfilt->Update();
-	printf(" Done.\n");
+	//printf(" Done.\n");
 	return tfilt->GetOutput();
 }
 
@@ -419,7 +419,7 @@ OutputImageType::Pointer getScaledFromBool(BoolImageType::Pointer im)
 
 InputImageType::Pointer getLargeComponents(InputImageType::Pointer im, int n)
 {
-	printf("Removing small connected components ...");
+	//printf("Removing small connected components ...");
 	typedef itk::Image<short int,3> LabelImageType;
 	typedef itk::ConnectedComponentImageFilter<InputImageType,LabelImageType> ConnectedFilterType;
 	typedef itk::RelabelComponentImageFilter<LabelImageType,LabelImageType> RelabelFilterType;
@@ -458,7 +458,7 @@ InputImageType::Pointer getLargeComponents(InputImageType::Pointer im, int n)
 	else
 		bfilter->SetUpperThreshold(1);
 	bfilter->Update();
-	printf(" Done.\n");
+	//printf(" Done.\n");
 
 	return bfilter->GetOutput();
 
@@ -466,8 +466,8 @@ InputImageType::Pointer getLargeComponents(InputImageType::Pointer im, int n)
 
 LabelImageType::Pointer getLargeLabels(LabelImageType::Pointer im, int n)
 {
-	printf("getLargeLabels called with input n = %d\n",n);
-	printf("Removing small connected components ...\n");
+	//printf("getLargeLabels called with input n = %d\n",n);
+	//printf("Removing small connected components ...\n");
 	typedef itk::Image<short int,3> LabelImageType;
 	typedef itk::RelabelComponentImageFilter<LabelImageType,LabelImageType> RelabelFilterType;
 	typedef itk::ScalarConnectedComponentImageFilter<LabelImageType,LabelImageType> ConnectedFilterType;
@@ -579,7 +579,7 @@ double features_diff(FeaturesType &f1, FeaturesType &f2,bool overlap)
 	}
 	if(overlap_measure>1)
 	{
-		printf("I got >1 overlap_measure\n");
+		//printf("I got >1 overlap_measure\n");
 	}
 	double cost = (1-overlap_measure)*(1-exp(-(dist*dist/2/distance_variance+(f1.ScalarFeatures[FT::MEAN]-f2.ScalarFeatures[FT::MEAN])*(f1.ScalarFeatures[FT::MEAN]-f2.ScalarFeatures[FT::MEAN])/2/intensity_variance+(f1.ScalarFeatures[FT::VOLUME]-f2.ScalarFeatures[FT::VOLUME])*(f1.ScalarFeatures[FT::VOLUME]-f2.ScalarFeatures[FT::VOLUME])/2/volume_variance)));
 	return cost;
@@ -650,7 +650,7 @@ void getFeatureVectorsFarsight(LabelImageType::Pointer im, InputImageType::Point
 
 InputImageType::Pointer getDilated(InputImageType::Pointer im, int n)
 {
-	printf("Performing morphological dilation ...");
+	//printf("Performing morphological dilation ...");
 	typedef itk::BinaryBallStructuringElement<InputPixelType,3> StructuringElementType;
 	typedef itk::Neighborhood<InputPixelType,3> NeighborhoodElementType;
 	typedef itk::BinaryDilateImageFilter<InputImageType,InputImageType,NeighborhoodElementType> DilateFilterType;
@@ -660,22 +660,22 @@ InputImageType::Pointer getDilated(InputImageType::Pointer im, int n)
 	size[0]=n;
 	size[1]=n;
 	size[2]=n/3;//FIXME
-	std::cout<<"z size:"<<n/3<<"\n";
+	//std::cout<<"z size:"<<n/3<<"\n";
 	selement.SetRadius(size);
 	selement.CreateStructuringElement();
 	DilateFilterType::Pointer dfilter = DilateFilterType::New();
 	dfilter->SetKernel(selement);
-	printf("Kernel set\n");
+	//printf("Kernel set\n");
 	dfilter->SetInput(im);
-	printf("Input set\n");
+	//printf("Input set\n");
 	dfilter->Update();
-	printf(" Done.\n");
+	//printf(" Done.\n");
 	return dfilter->GetOutput();
 }
 
 InputImageType::Pointer getEroded(InputImageType::Pointer im, int n)
 {
-	printf("Performing morphological Erosion ...");
+	//printf("Performing morphological Erosion ...");
 
 	typedef itk::BinaryBallStructuringElement<InputPixelType,3> StructuringElementType;
 	typedef itk::Neighborhood<InputPixelType,3> NeighborhoodElementType;
@@ -693,18 +693,18 @@ InputImageType::Pointer getEroded(InputImageType::Pointer im, int n)
 	efilter->SetKernel(selement);
 	efilter->Update();
 
-	printf(" Done.\n");
+	//printf(" Done.\n");
 	return efilter->GetOutput();
 }
 
 DistanceMapFilterType::Pointer getDistanceMap(InputImageType::Pointer im)
 {
-	printf("Computing Danielsson distance map ... ");
+	//printf("Computing Danielsson distance map ... ");
 	DistanceMapFilterType::Pointer distfilter = DistanceMapFilterType::New();
 	distfilter->SetInput(im);
 	distfilter->InputIsBinaryOn();
 	distfilter->Update();
-	printf("Done.\n");
+	//printf("Done.\n");
 	return distfilter;
 }
 /* obselete */
@@ -742,7 +742,7 @@ LabelImageType::Pointer getLabelled(InputImageType::Pointer im_input,int thresho
 LabelImageType::Pointer GetThreshSegmentation(InputImageType::Pointer InImage,int inten_threshold,int open_depth)
 {
 	//InputImageType::Pointer ProcImage = getThresholded(InImage,inten_threshold); // threshold the image
-	printf("Performing binary thresholding ...");
+	//printf("Performing binary thresholding ...");
 	ThresholdFilterType::Pointer tfilt = ThresholdFilterType::New();
 	tfilt->SetInput(InImage);
 	tfilt->SetInsideValue(255);
@@ -750,7 +750,7 @@ LabelImageType::Pointer GetThreshSegmentation(InputImageType::Pointer InImage,in
 	tfilt->SetLowerThreshold(inten_threshold);
 	tfilt->SetUpperThreshold(255);
 	tfilt->Update();
-	printf(" Done.\n");
+	//printf(" Done.\n");
 	InputImageType::Pointer ProcImage = tfilt->GetOutput();
 
 	ProcImage = getDilated(ProcImage,open_depth);
@@ -772,7 +772,7 @@ LabelImageType::Pointer GetThreshSegmentation(InputImageType::Pointer InImage,in
 }
 LabelImageType::Pointer GetLargestLabel(LabelImageType::Pointer LabImage)
 {
-	printf("Removing all small connected components ...");
+	//printf("Removing all small connected components ...");
 	//typedef itk::Image<short int,3> LabelImageType;
 	//typedef itk::ConnectedComponentImageFilter<InputImageType,LabelImageType> ConnectedFilterType;
 	//typedef itk::RelabelComponentImageFilter<LabelImageType,LabelImageType> RelabelFilterType;
@@ -818,7 +818,7 @@ LabelImageType::Pointer GetLargestLabel(LabelImageType::Pointer LabImage)
 	else
 		bfilter->SetUpperThreshold(1);
 	bfilter->Update();
-	printf(" Done.\n");
+	//printf(" Done.\n");
 
 	return bfilter->GetOutput();
 }
@@ -896,7 +896,7 @@ ColorImageType::Pointer getColorComposite(InputImageType::Pointer im[],int n, Ve
 		iiter[counter].GoToBegin();
 	}
 
-	printf("Starting Iteration\n");
+	//printf("Starting Iteration\n");
 	for(oiter.GoToBegin();!oiter.IsAtEnd(); ++oiter)
 	{
 		for(int counter=0; counter<n; counter++)
@@ -990,7 +990,7 @@ void getClassified(DistanceImageType::Pointer dist, InputImageType::Pointer micr
 	std::vector<short int> distance;
 	for(int counter=0; counter<num_objects; counter++)
 		distance.push_back(1000);
-	printf("About to compute distances\n");
+	//printf("About to compute distances\n");
 	for(liter.GoToBegin(),diter.GoToBegin(),iter1.GoToBegin(),iter2.GoToBegin();!liter.IsAtEnd(); ++liter,++diter)
 	{
 		if(liter.Get()>0)
@@ -998,14 +998,14 @@ void getClassified(DistanceImageType::Pointer dist, InputImageType::Pointer micr
 			if(distance[liter.Get()-1]>diter.Get())
 			{
 				if(diter.Get()<0)
-					printf("What the hell!\n");
+					//printf("What the hell!\n");
 				distance[liter.Get()-1]=diter.Get();
 			}
 		}
 	}
 	for(int counter=0; counter<num_objects;counter++)
 	{
-		printf("%d \t",(int)distance[counter]);
+		//printf("%d \t",(int)distance[counter]);
 	}
 	for(liter.GoToBegin();!liter.IsAtEnd();++iter1,++iter2,++liter)
 	{
@@ -1372,7 +1372,7 @@ Color2DImageType::Pointer getColorBoundaryImage(LabelImageType::Pointer labelled
 LabelImageType::Pointer getLabelsMapped(LabelImageType::Pointer label, std::vector<FeaturesType> &fvec, unsigned int * indices)
 {
 	//ideally .num should have the actual cell id which we want to map to track id, but its not so :-/
-	printf("Entering getLabelsMapped\n");
+	//printf("Entering getLabelsMapped\n");
 
 	LabelIteratorType liter = LabelIteratorType(label,label->GetLargestPossibleRegion());
 	LabelImageType::Pointer lout = LabelImageType::New();
@@ -1392,7 +1392,7 @@ LabelImageType::Pointer getLabelsMapped(LabelImageType::Pointer label, std::vect
 	{
 		fvec[counter].num = indices[fvec[counter].num-1]+1;
 	}
-	printf("Exiting getLabelsMapped\n");
+	//printf("Exiting getLabelsMapped\n");
 	return lout;
 }
 
@@ -1592,14 +1592,14 @@ void AnalyzeTimeFeatures(std::vector<ftk::TrackFeatures> &tfs, float spacing[3])
 {
 	for(unsigned int tcounter=0; tcounter < tfs.size(); tcounter++)
 	{
-		printf("Beginning to read track no: %d/%d\n",tcounter+1, (int)tfs.size());
+		//printf("Beginning to read track no: %d/%d\n",tcounter+1, (int)tfs.size());
 		//std::vector<TrackPoint> track = total_tracks[tcounter];
 		if(tfs[tcounter].intrinsic_features.size()<2)
 		{
-			printf("Ignored a tiny track of size %d track.size()\n",(int)tfs[tcounter].intrinsic_features.size());
+			//printf("Ignored a tiny track of size %d track.size()\n",(int)tfs[tcounter].intrinsic_features.size());
 			continue;
 		}
-		printf("I'm working on a track of size %d\n",(int)tfs[tcounter].intrinsic_features.size());
+		//printf("I'm working on a track of size %d\n",(int)tfs[tcounter].intrinsic_features.size());
 		ftk::TrackFeatures t = tfs[tcounter];
 		//std::vector<float> spacing(3);
 		//spacing[0] = spacing[1] = 0.357;
@@ -1648,7 +1648,7 @@ void AnalyzeTimeFeatures(std::vector<ftk::TrackFeatures> &tfs, float spacing[3])
 				t.tfeatures[counter] = tpf;
 			}
 		}
-		printf("finished calculating first for loop of point features\n");
+		//printf("finished calculating first for loop of point features\n");
 		float avg_speed = 0;
 		float pathlength = 0;
 		for(unsigned int counter =0; counter < t.tfeatures.size(); counter++)
@@ -1716,7 +1716,7 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 			}
 		}
 	}
-	printf("Done loading neighbors\n");
+	//printf("Done loading neighbors\n");
 
 	InputImageType::Pointer debug_image = InputImageType::New();
 	debug_image->SetRegions(cline->GetLargestPossibleRegion());
@@ -1746,7 +1746,7 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 				}
 				else
 				{
-					printf("Error in dx,dy,dz\n");
+					//printf("Error in dx,dy,dz\n");
 				}
 				fiter1.Set(dx);fiter2.Set(dy);fiter3.Set(dz);
 			}
@@ -1762,7 +1762,7 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 					dx/=dsum;dy/=dsum;dz/=dsum;
 				}
 				fiter1.Set(dx);fiter2.Set(dy);fiter3.Set(dz);
-				printf("I got fpoints.size() = %d\n",(int)fpoints.size());
+				//printf("I got fpoints.size() = %d\n",(int)fpoints.size());
 				//debug_image->SetPixel(iter.GetIndex(),255);;
 			}
 			//	idx2[0] = idx[0]+dx*5;idx2[1] = idx[1]+dy*5; idx2[2]= idx[2]+dz*5;
@@ -1777,7 +1777,7 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 		}
 	}
 
-	printf("No segfault\n");
+	//printf("No segfault\n");
 
 
 
@@ -1787,14 +1787,14 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 	//InputImageType::IndexType celldirindex;
 	for(unsigned int tcounter=0; tcounter < tfs.size(); tcounter++)
 	{
-		printf("Beginning to read track no: %d/%d\n",tcounter+1,(int)tfs.size());
+		//printf("Beginning to read track no: %d/%d\n",tcounter+1,(int)tfs.size());
 		//std::vector<TrackPoint> track = total_tracks[tcounter];
 		if(tfs[tcounter].intrinsic_features.size()<3)
 		{
-			printf("Ignored a tiny track of size %d track.size()\n",(int)tfs[tcounter].intrinsic_features.size());
+			//printf("Ignored a tiny track of size %d track.size()\n",(int)tfs[tcounter].intrinsic_features.size());
 			continue;
 		}
-		printf("I'm working on a track of size %d\n",(int)tfs[tcounter].intrinsic_features.size());
+		//printf("I'm working on a track of size %d\n",(int)tfs[tcounter].intrinsic_features.size());
 		ftk::TrackFeatures t = tfs[tcounter];
 	//std::vector<float> spacing(3);
 	//spacing[0] = spacing[1] = 0.357;
@@ -1835,7 +1835,7 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 				Vec3f dir2;
 				if(cline->GetPixel(vesselindex)==0)
 				{
-					printf("I'm calling searchNearestVesselDirection\n");
+					//printf("I'm calling searchNearestVesselDirection\n");
 					vesselindex = searchNearestVesselDirection(dir_image,vesselindex,cline);
 				}
 				dir2.x = spacing[0]*dir_image[0]->GetPixel(vesselindex);
@@ -1843,7 +1843,7 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 				dir2.z = spacing[2]*dir_image[2]->GetPixel(vesselindex);
 				if((dir2.x*dir2.x+dir2.y*dir2.y+dir2.z*dir2.z)<1e-6)
 				{
-					printf("Error! vessel direction is zero\n");
+					//printf("Error! vessel direction is zero\n");
 					tpf.scalars[TPF::ANGLE_REL_TO_1] = 0.0;
 					continue;
 				}
@@ -1855,7 +1855,7 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 			{
 				tpf.scalars[TPF::ANGLE_REL_TO_1] = 0.0;
 			}
-			printf("Just before\n");
+			//printf("Just before\n");
 			if(counter > t.tfeatures.size()-1)
 			{
 				t.tfeatures.push_back(tpf);
@@ -1864,7 +1864,7 @@ void AnalyzeVesselCenterlines(InputImageType::Pointer cline, std::vector<ftk::Tr
 			{
 				t.tfeatures[counter] = tpf;
 			}
-			printf("Just After\n");
+			//printf("Just After\n");
 		}
 
 		float avg_distance_to_1 = 0;
@@ -1997,11 +1997,11 @@ void AnalyzeDCContact(LabelImageType::Pointer segmented[][4], std::vector<ftk::T
 					}
 					sum /= num_num;
 					radius = pow(static_cast<float>(tfs[tc].intrinsic_features[tp].ScalarFeatures[FeaturesType::VOLUME]*spacing[0]*spacing[1]*spacing[2]*3.0/8.0/acos(double(0))),1/3.0f);
-					printf("Sum = %0.2f radius = %0.2f ratio = %0.3f\n",sum,radius,sum/radius);
+					//printf("Sum = %0.2f radius = %0.2f ratio = %0.3f\n",sum,radius,sum/radius);
 					if(sum/radius<= ratio_threshold)
 					{
 						// it is making contact with a DC
-						printf("I set it to true\n");
+						//printf("I set it to true\n");
 						tfs[tc].tfeatures[tp].scalars[TPF::HAS_CONTACT_TO_2]=1.0;
 					}
 					else
@@ -2035,7 +2035,7 @@ void AnalyzeDCContact(LabelImageType::Pointer segmented[][4], std::vector<ftk::T
 	}
 	
 
-	printf("tfs.size()\n");
+	//printf("tfs.size()\n");
 
 
 }
@@ -2108,7 +2108,7 @@ LabelImageType::Pointer extract_label_image(int label, float bbox[6],LabelImageT
 }
 void annotateImage(Color2DImageType::Pointer number,Color2DImageType::Pointer orig, int n, int x, int y)
 {
-	printf("annotateImage called with n = %d x = %d y = %d ... ", n,x,y);
+	//printf("annotateImage called with n = %d x = %d y = %d ... ", n,x,y);
 	typedef itk::ImageRegionConstIterator<Color2DImageType> ConstColor2DIteratorType;
 	typedef itk::ImageRegionIterator<Color2DImageType> Color2DIteratorType;
 
@@ -2148,7 +2148,7 @@ void annotateImage(Color2DImageType::Pointer number,Color2DImageType::Pointer or
 		index[1]=0;
 	else
 		index[1] = MIN(MAX(y-size[1]/2,0),orig->GetLargestPossibleRegion().GetSize()[1]-size[1]);
-	printf("index : %d %d\n",index[0],index[1]);
+	//printf("index : %d %d\n",index[0],index[1]);
 	region.SetIndex(index);
 
 	Color2DIteratorType origiter(orig,region);
@@ -2285,7 +2285,7 @@ std::vector<FeaturesType> get_all_connected_components(LabelImageType::Pointer l
 
 void MergeCells(std::vector<LabelImageType::Pointer> lin, std::vector<InputImageType::Pointer> imin, std::vector<FeaturesType> fin, FeatureVariances fvar, LabelImageType::Pointer &lout, InputImageType::Pointer &rout, FeaturesType &fout)
 {
-	printf("In MergeCell\n");
+	//printf("In MergeCell\n");
 	LabelImageType::Pointer p1,p2;
 	InputImageType::Pointer r1,r2;
 	p1 = lin[0];
@@ -2382,12 +2382,12 @@ void MergeCells(std::vector<LabelImageType::Pointer> lin, std::vector<InputImage
 	rout = r;
 	fout = f;
 	//return f;
-	printf("End mergecell\n");
+	//printf("End mergecell\n");
 }
 
 void SplitCell(LabelImageType::Pointer lin, InputImageType::Pointer imin,FeaturesType fin, FeatureVariances fvar,std::vector<LabelImageType::Pointer> &lout,std::vector<InputImageType::Pointer> &rout,std::vector<FeaturesType> &fvecout)
 {
-	printf("In SplitCell:\n");
+	//printf("In SplitCell:\n");
 	float c1[3],c2[3];
 	c1[0] = fin.Centroid[0]-3*(1.0*rand()/RAND_MAX)-fin.BoundingBox[0];
 	c1[1] = fin.Centroid[1]-3*(1.0*rand()/RAND_MAX)-fin.BoundingBox[2];
@@ -2439,7 +2439,7 @@ void SplitCell(LabelImageType::Pointer lin, InputImageType::Pointer imin,Feature
 		LabelImageType::SizeType lsize1 = lin->GetLargestPossibleRegion().GetSize();
 		if(num1+num2 == lsize1[0]*lsize1[1]*lsize1[2])
 		{
-			printf("num1 = %d num2 = %d volume = %d\n",num1,num2,lsize1[0]*lsize1[1]*lsize1[2]);
+			//printf("num1 = %d num2 = %d volume = %d\n",num1,num2,lsize1[0]*lsize1[1]*lsize1[2]);
 			scanf("%*d");
 		}
 		if(num1==0 || num2 == 0)
@@ -2464,7 +2464,7 @@ void SplitCell(LabelImageType::Pointer lin, InputImageType::Pointer imin,Feature
 			_TRACE;
 			getFeatureVectorsFarsight(lcopy,imin,ftemp,fin.time,0);
 			_TRACE;
-			printf("ftemp.size() = %d\n",ftemp.size());
+			//printf("ftemp.size() = %d\n",ftemp.size());
 			LabelImageType::Pointer l1,l2;
 			l1 = LabelImageType::New();
 			l2 = LabelImageType::New();
@@ -2660,7 +2660,7 @@ void AnalyzeCAFeatures(OutputImageType::Pointer LabNucImage,OutputImageType::Poi
   //writer->SetFileName("C:\\Lab\\AminFiles\\Debug\\ThomazsTests\\DistanceMap.nrrd");
   //writer->SetInput(dismapFilter->GetOutput());
   //writer->Update();
-  	std::cout<<"number of columns before:"<<table->GetNumberOfColumns()<<std::endl;
+  	//std::cout<<"number of columns before:"<<table->GetNumberOfColumns()<<std::endl;
 
   	vtkSmartPointer<vtkDoubleArray> column = vtkSmartPointer<vtkDoubleArray>::New();
 	column->SetNumberOfValues(table->GetNumberOfRows());
@@ -2668,7 +2668,7 @@ void AnalyzeCAFeatures(OutputImageType::Pointer LabNucImage,OutputImageType::Poi
 	table->AddColumn(column);
 
 	//std::cout<<"number of rows:"<<table->GetNumberOfRows()<<std::endl;
- 	std::cout<<"number of columns after:"<<table->GetNumberOfColumns()<<std::endl;
+ 	//std::cout<<"number of columns after:"<<table->GetNumberOfColumns()<<std::endl;
 
     //table->Dump ( 3 );
 	FloatImageType::Pointer DistanceMap = dismapFilter->GetOutput();

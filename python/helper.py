@@ -199,7 +199,7 @@ def RunParallel(subprocess_command_list, numThreads):
     #while (threads_launched >= max(1,1) ) | (memoryAvilable == 0): # at least one thread, but no more than 3/4 of the machine
       if flagAllStart == 0:
         flagAllStart = 1
-        print "\tALL THE PROCESS ARE STARTED"
+        #print "\tALL THE PROCESS ARE STARTED"
       threads_launched = 0
       still_launched_subp_list = []
       for launched_subp in launched_processes_list:                  

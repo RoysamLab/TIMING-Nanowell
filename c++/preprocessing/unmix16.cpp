@@ -274,7 +274,7 @@ int main(int argc, char**argv)
 //	writeImage<InputImageType16>(outputImage02,outfName02.c_str());
 	
 	writeImage<InputImageType16>(inputImage01,outfName01.c_str());
-	writeImage<InputImageType16>(inputnImage02,outfName02.c_str());
+	writeImage<InputImageType16>(inputImage02,outfName02.c_str());
     
     
     { // COMPUTE THE NEW MIXING MATRIX

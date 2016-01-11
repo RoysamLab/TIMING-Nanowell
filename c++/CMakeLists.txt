@@ -22,10 +22,10 @@ project( nano )
 # ADD NEW MODULES HERE
 #########################################
 option( BUILD_PREPROCESSING "Build Preprocessing Tools" ON )
-option( BUILD_SEGMENTATION "Build Segmentation Tools" OFF )
-option( BUILD_WELLCROPPING "Build WellCropping Tools" OFF )
+option( BUILD_SEGMENTATION "Build Segmentation Tools" ON )
+option( BUILD_WELLCROPPING "Build WellCropping Tools" ON )
 option( BUILD_TRACKING "Build Tracking Tools" OFF )
-option( BUILD_SCATTERPLOT "Build Scatterplot Tools" OFF )
+option( BUILD_SCATTERPLOT "Build Scatterplot Tools" ON )
 
 include_directories( ${PROJECT_SOURCE_DIR} ${PROJECT_BINARY_DIR} )
 #########################################

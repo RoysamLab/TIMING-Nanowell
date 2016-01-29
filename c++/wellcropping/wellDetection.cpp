@@ -114,11 +114,17 @@ int main(int argc, char *argv[])
     //     {
     //     itk::FFTWGlobalConfiguration::SetWisdomCacheBase(argv[1]);
     //     }
-    std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
-    std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
-    std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
-    std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
-    std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
+    itk::FFTWGlobalConfiguration::GetWriteWisdomCache();
+    itk::FFTWGlobalConfiguration::GetReadWisdomCache();
+    itk::FFTWGlobalConfiguration::GetPlanRigor();
+    itk::FFTWGlobalConfiguration::GetWisdomCacheBase();
+    itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName();
+
+    //std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+    //std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+    //std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+    //std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+    //std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
     // -------------------------------------------------------------------------------------------------------------------------
 
     // READ IMAGES
@@ -335,24 +341,49 @@ std::vector< std::vector< std::vector< int > > > LabelWells( std::vector< std::v
     //         exit(1);
     //     }
     // Find the locations but only keep the maxima of each region
+	int minxx = 50000;
+	int minyy = 50000;
+	int maxxx = 0;
+	int maxyy = 0;
     for( int i=0; i<(*locations).size(); ++i ){
         int xx = (*locations).at(i).at(0);
         int yy = (*locations).at(i).at(1);
-        int type = (*locations).at(i).at(2);
-        int value = (*locations).at(i).at(3); // to implement in case of multiple wells
-        int col = (double)xx/ ((double)size[0]/(double)wellPerRow);
-        int row = (double)yy/ ((double)size[1]/(double)wellPerRow);
+		minxx = std::min(minxx,xx);
+		maxxx = std::max(maxxx,xx);
+		minyy = std::min(minyy,yy);
+		maxyy = std::max(maxyy,yy);
 
-        // I will beter clean the max imag, bef finding maxima
-        //         if( xx < minBorder || yy < minBorder || xx > (int)size[0]-(int)minBorder || yy > (int)size[1]-(int)minBorder )
-        //             continue;
-
-        if( value > allWells.at(row).at(col).at(3) || allWells.at(row).at(col).at(3) == -1000 ){
+    }
+	int stepxx = (maxxx-minxx)/(wellPerRow-1);
+	int stepyy = (maxyy-minyy)/(wellPerRow-1);
+	for( int i=0; i<(*locations).size(); ++i ){
+		int xx = (*locations).at(i).at(0);
+		int yy = (*locations).at(i).at(1);
+		int type = (*locations).at(i).at(2);
+		int value = (*locations).at(i).at(3); // to implement in case of multiple wells
+        //if( value > allWells.at(row).at(col).at(3) || allWells.at(row).at(col).at(3) == -1000 ){	
+			int col = (xx+50 - minxx)/stepxx;
+			int row = (yy+50 - minyy)/stepyy;
+			//std::cout << "row: "<< row <<", col: " << col <<"xx: "<< xx <<", yy: " << yy << std::endl;
+			//int col = (double)xx/ ((double)size[0]/(double)wellPerRow);
+			//int row = (double)yy/ ((double)size[1]/(double)wellPerRow);
             allWells.at(row).at(col).at(0) = xx;
             allWells.at(row).at(col).at(1) = yy;
             allWells.at(row).at(col).at(2) = type;
             allWells.at(row).at(col).at(3) = value;
            // std::cout << std::endl << "WELL, row: " << row << ", col: " << col << ", x: " << xx << ", yy: " << yy;
+        //}
+	}
+
+	 for( int row=0; row<wellPerRow; ++row ){
+        for( int col=0; col<wellPerRow; ++col ){
+			if( allWells.at(row).at(col).at(3) == -1000 ){
+			int xx = minxx + col*stepxx;
+			int yy = minyy+row*stepyy;
+            allWells.at(row).at(col).at(0) = xx;
+            allWells.at(row).at(col).at(1) = yy;
+			//std::cout << "row: "<< row <<", col: " << col <<"xx: "<< xx <<", yy: " << yy << std::endl;
+			}
         }
     }
     return allWells;
@@ -453,6 +484,48 @@ void FindInitialWells( ImageF2::Pointer INCCPat1, ImageF2::Pointer INCCPat2, int
                 INCCMaxPtr[ indx ] = INCCPat2Ptr[ indx ];
         }
     }
+	
+	//std::string max1 = "max1.txt";
+ //   FILE * max1fp = fopen( max1.c_str(), "w" );
+
+ //   for( int j=0; j<size[1]; ++j )
+ //   {
+ //       for( int i=0; i<size[0]; ++i )
+ //       {
+	//		indx = i+j*size[0];
+	//		fprintf( max1fp,"%f\t",INCCPat1Ptr[indx]);
+	//	}
+	//	fprintf( max1fp,"\n");
+ //   }
+ //   fclose( max1fp );
+
+	//std::string max2 = "max2.txt";
+ //   FILE * max2fp = fopen( max2.c_str(), "w" );
+
+ //   for( int j=0; j<size[1]; ++j )
+ //   {
+ //       for( int i=0; i<size[0]; ++i )
+ //       {
+	//		indx = i+j*size[0];
+	//		fprintf( max2fp,"%f\t",INCCPat2Ptr[indx]);
+	//	}
+	//	fprintf( max2fp,"\n");
+ //   }
+ //   fclose( max2fp );
+
+	//std::string max = "max.txt";
+ //   FILE * maxfp = fopen( max.c_str(), "w" );
+
+ //   for( int j=0; j<size[1]; ++j )
+ //   {
+ //       for( int i=0; i<size[0]; ++i )
+ //       {
+	//		indx = i+j*size[0];
+	//		fprintf( maxfp,"%f\t",INCCMaxPtr[indx]);
+	//	}
+	//	fprintf( maxfp,"\n");
+ //   }
+ //   fclose( maxfp );
 
     double* max_row;
     max_row = new double[size[0]*size[1]];
@@ -502,7 +575,8 @@ void FindInitialWells( ImageF2::Pointer INCCPat1, ImageF2::Pointer INCCPat2, int
     {
         for( int i=0+minBorder; i<size[0]-minBorder; ++i )
         {
-            if( max_col[j*size[0]+i] <= INCCMaxPtr[j*size[0]+i] )
+			if( max_col[j*size[0]+i] <= INCCMaxPtr[j*size[0]+i] && INCCMaxPtr[j*size[0]+i] >0.65)
+            //if( max_col[j*size[0]+i] <= INCCMaxPtr[j*size[0]+i] )
             {
                 // Locations
                 std::vector< double > CoordWell;
@@ -542,6 +616,29 @@ void FindInitialWells( ImageF2::Pointer INCCPat1, ImageF2::Pointer INCCPat2, int
             }
         }
     }
+	//std::cout << (*locations).size()<<std::endl;
+	//std::string shiftFile = "maxrow.txt";
+ //   FILE * shiftFilefp = fopen( shiftFile.c_str(), "w" );
+
+ //   for( int j=0; j<size[1]; ++j )
+ //   {
+ //       for( int i=0; i<size[0]; ++i )
+	//		fprintf( shiftFilefp,"%f\t",max_row[ j*size[0]+i ]);
+	//	fprintf( shiftFilefp,"\n");
+ //   }
+ //   fclose( shiftFilefp );
+
+	std::string colfil = "maxcol.txt";
+    FILE * colfilfp = fopen( colfil.c_str(), "w" );
+
+    for( int j=0; j<size[1]; ++j )
+    {
+        for( int i=0; i<size[0]; ++i )
+			fprintf( colfilfp,"%f\t",max_col[ j*size[0]+i ]);
+		fprintf( colfilfp,"\n");
+    }
+    fclose( colfilfp );
+
     //     int yy;
     //     std::cin >> yy;
     delete [] max_row;

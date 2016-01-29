@@ -11,6 +11,7 @@
 #include <limits>
 #include <iterator> 
 #include <vector>
+#include <algorithm>
 
 // itk includes
 #include <itkImageFileReader.h>

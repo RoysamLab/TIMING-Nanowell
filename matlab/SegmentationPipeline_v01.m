@@ -9,7 +9,6 @@ num_well = 7; % Num of well in each col, and each row
 dataPath = '/data/pdata/nrey/00-nano-team/results/20140323GR_RES3/';
 process_channels_seg_trc = {'CH1','CH2'};
 preprocess_channels = {'CH1','CH2'}; % Not implemented, by default 1 and 2, use the bg sufix, in the crop image for the pixel features
-timeToCountSeeds = 7;
 
 %% Open pool (TO open pool, use once)
 % matlabpool
@@ -38,7 +37,7 @@ end
 disp('Segmentation and Tracking')
 parfor dd = 3:length(dirList)%ini:fin%3:24+2%length(dirList)%23:length(dirList)%3:length(dirList)
     tt = clock;
-    MainSegmTrack( dd, dirList, N, w_hsize, timeToCountSeeds, dataPath, process_channels_seg_trc, nFrame );
+    MainSegmTrack( dd, dirList, N, w_hsize, dataPath, process_channels_seg_trc, nFrame );
     fprintf('Block: %d, t: %d\n',dd-2,etime(clock,tt))
 end
     
@@ -46,7 +45,7 @@ end
 disp('Pixel features')
 parfor dd = 3:length(dirList)
     tt = clock;
-    MainSimpleFeature( dd, dirList, N, w_hsize, timeToCountSeeds, dataPath, process_channels_simple_fea, nFrame, num_well );
+    MainSimpleFeature( dd, dirList, N, w_hsize, dataPath, process_channels_simple_fea, nFrame, num_well );
     fprintf('Block: %d, t: %d\n',dd-2,etime(clock,tt))
 end
 

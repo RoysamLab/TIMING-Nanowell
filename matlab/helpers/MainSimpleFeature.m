@@ -1,4 +1,4 @@
-function MainSimpleFeature( dd, dirList, N, w_hsize, timeToCountSeeds, dataPath, process_channels_simple_fea, nFrame, num_well )
+function MainSimpleFeature( dd, dirList, N, w_hsize, dataPath, process_channels_simple_fea, nFrame, num_well )
 
 block_number = dd - 2;
 block_name = dirList(dd).name;
